@@ -23,10 +23,5 @@ c = conn.cursor()
 
 save_df.to_sql("steam_games",conn)
 
-sqlite3 steam_games.db
-.schema steam_games;
-. schema steam_games
-select * from steam_games;
-
 
 
