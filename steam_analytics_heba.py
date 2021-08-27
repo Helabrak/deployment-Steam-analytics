@@ -8,28 +8,14 @@ myjsonfile.close()
 # parse
 game = json.loads(jsondata)
 
-# print(game)
-# print(type(game))==> gives dict
-# print(str( game["1198490"]))
-# print(type(game["1198490"]))
+# print(game)#returns all data is mess (raw_data)
+# print(type(game))#to get the type of data (in this case dict)
+#print(str( game["1198490"])) #prints one instance (all the keys and values of this index)
+#print(type(game["1198490"]))#prints the type of this instance
 
+#parsing game names (to get a list we ith all the game names):
 for steam_appid in game.values():
-     print(steam_appid)
-print("Name:"+steam_appid["name"])
-
-'''for item in steam_appid:
-    game_name=item['name']
-    age=item['required_age']
-    new_list=steam_appid(game_name=name,age=required_age)
-    print(new_list)'''
-
-
-
-# for key in steam_appid.values():
-#     print(key['name'])
-# for game_name in key['name']:
-#     print(game_name['name'])
-# #to get a list we ith all the game names:
-# for item in game['name']:
-#     print(item)
-
+     #print(steam_appid) #returns all the dictionnaries in the data
+     game_name="Name:" + steam_appid["name"]
+     game_description= "Description:" + steam_appid["short_description"]
+     print(game_name),#game_description)
