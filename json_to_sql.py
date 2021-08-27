@@ -2,7 +2,6 @@ import json
 import sqlite3
 
 import pandas as pd
-import json
 from sqlalchemy import create_engine
 
 # read file
