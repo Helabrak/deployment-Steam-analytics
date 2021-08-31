@@ -1,6 +1,11 @@
 import streamlit as st
 import pandas as pd
 import json
+import sqlite3
+from PIL import Image
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 #import plotly.express as px
 
 # import shap
@@ -11,15 +16,18 @@ def get_data(filename):
     taxi_data= pd.read_csv(filename)
     return taxi_data
 
-#open json
-with open ('C:/Users/acer.LAPTOP-OODPR6CI/Documents/GitHub/Deployment/deployment-Steam-analytics/steam scrape/database.json') as f:
-    data=json.load(f)
 
-#example : df_1= get_data(data/taxi_data.csv)
-df_1=pd.DataFrame(data)
-pd.set_option('display.max_columns',111)
-df=df_1.T
-
+# Création d'une base de données Sqlite3 en mémoire
+# cnx = sqlite3.connect(':memory:')
+# Création d'une base de données Sqlite3 en mémoire
+cnx = sqlite3.connect('steam_games.db')
+curs = cnx.cursor()
+# Interoger la table df avec une requête SQL
+sql = "select * from steam_games"
+curs.execute(sql)
+#print(curs.fetchone())
+df=pd.read_sql(sql, cnx)
+#print(df.head())
 
 header = st.container()
 dataset = st.container()
@@ -39,12 +47,14 @@ st.markdown(
 
 with header:
     st.title("Welcome to my Deployment **Steam-Analytics**!")
+    image = Image.open('steam.jpg')
+    st.image(image, width=200)
     st.write('---')
 
 with dataset:
     st.header('Steam dataset')
-    st.text('This is description....')
-    #st.write(df.head(5))
+    st.text('This is our Database:')
+    st.write(df.head(5))
 
     #st.subheader('Pickup pulocation_dist')
     #pulocation_dist= pd.DataFrame(df['PULocationID'].value_counts()).head(50)
@@ -70,10 +80,30 @@ with model_training:
     input_feature = sel_col.text_input('Which feature should be use as the input:','PULocationID')
 
     # 2nd column:
+    # Plot Closing Price of Query Symbol
+    def price_plot(df):
+        fig = plt.figure()
+        sns.lmplot(x='total_positive', y='final', data=df)
+        return st.pyplot(fig)
+
+
     disp_col.subheader('Prepare for plotting..')
+    fig, ax = plt.subplots()
+    #sns.lmplot(x='total_positive', y='final', data=df)
+    sns.distplot(df['final'])
+    #plt.bar(df['total_positive'],df['final'])
+    #plt.hist(df['total_positive'], bins=5, rwidth=0.8)
+    plt.xlabel("final")
+    plt.ylabel("Frequency")
+    plt.xlim(0,500)
+    plt.ylim(0,0.01)
+    #sns.lmplot(x='review_score', y='total_positive', data=df)
+    #plt.title("review total vs.positive score")
+    #plt.xlabel("x=review_score")
+    #plt.ylabel("y=total_positive")
+    #plt.xlim(0,100)
+    #plt.ylim(0,0.001)
+    disp_col.write(fig)
+
     disp_col.subheader('Output 01..')
     #disp_col.write( Var_Output_01)
-    disp_col.subheader('Output 02..')
-    #disp_col.write(Var_Output_02)
-    disp_col.subheader('Output 03..')
-    # disp_col.write(Var_Output_03)
