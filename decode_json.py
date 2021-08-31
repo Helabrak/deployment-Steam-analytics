@@ -1,5 +1,6 @@
 import pandas as pd
 import json # The module we need to decode JSON
+import re
 
 #df = pd.read_csv("tmdb_5000_movies.csv")
 #open json
@@ -10,15 +11,13 @@ df_1=pd.DataFrame(data)
 pd.set_option('display.max_columns',111)
 df_2=df_1.T
 
-#print("df_2.dtypes=",df_2.dtypes)
-#print(df_2.shape)
-# print(df_2.head())
+
 df_2_sub = df_2.filter(['name', 'steam_appid', 'required_age', 'is_free','short_description',
              'num_reviews','review_score', 'total_positive', 'total_negative','total_reviews'])
 
 #df_2_sub.set_index('steam_appid',inplace = True)
 #df_2_sub.reset_index(drop=True)
-#df_2_sub.dropna()
+
 #print(df_2_sub.shape)
 #print(df_2_sub.info())
 #print(df_2_sub.head())
@@ -26,18 +25,13 @@ df_2_sub = df_2.filter(['name', 'steam_appid', 'required_age', 'is_free','short_
 #df_3=df_2_sub['price_overview']
 #df_2_sub.drop(['price_overview'],axis=1,inplace = True)
 
-#print(df_2_sub.head())
-#print(df_2_sub.info())
-
 df_3 = df_2['price_overview'].apply(pd.Series)
-df_3['final_formatted'] = df_3['final_formatted'].replace(",", ".", regex=True)
-df_price = pd.DataFrame(df_3['final_formatted'])
-#df_3= pd.json_normalize(df_3)
-#print(df_3.head())
-#print(df_2_sub.shape)
-#print(df_3.shape)
 #print(df_3.info())
-#df_3=df_3.drop(['recurring_sub','recurring_sub_desc'], axis=1)
+
+df_3['final_formatted'] = df_3['final_formatted'].replace(",", ".", regex=True)
+df_3['final_formatted'] = df_3['final_formatted'].replace(" ", "", regex=True)
+df_price = pd.DataFrame(df_3['final'])
+#df_3= pd.json_normalize(df_3)
 
 df_4=pd.concat([df_2_sub,df_price],axis=1)
 df_4=df_4.dropna(axis=0)
@@ -45,21 +39,25 @@ df_4=df_4.dropna(axis=0)
 print(df_4.head())
 print(df_4.info())
 
-#df_4.drop(['initial_formatted', 'recurring_sub', 'recurring_sub_desc'],axis=1,inplace = True)
+#convert object to int and float
+df_4["required_age"]=df_4["required_age"].astype(int, errors = 'raise')
+df_4["num_reviews"]=df_4["num_reviews"].astype(int, errors = 'raise')
+df_4["review_score"]=df_4["review_score"].astype(int, errors = 'raise')
+df_4["total_positive"]=df_4["total_positive"].astype(int, errors = 'raise')
+df_4["total_negative"]=df_4["total_negative"].astype(int, errors = 'raise')
+df_4["total_reviews"]=df_4["total_reviews"].astype(int, errors = 'raise')
+df_4['final'] = df_4['final']/100
+"""df_4['final_formatted'] = df_4['final_formatted'].replace("€", "", regex=True)
+#df_4['final_formatted'] = df_4['final_formatted'].replace(regex=[0-9,\.], value='')
+df_4['final_formatted'] = df_4['final_formatted'].replace("[^[0-9]]|[^\.]", "", regex=True)
+df_4["final_formatted"]=df_4["final_formatted"].astype(str, errors = 'raise')
+df_4["final_formatted"]=df_4["final_formatted"].astype(float, errors = 'raise')
+"""
+print(df_4['final']      )
 
+print(df_4.info())
+print(df_4.head())
 
-#df_4=df_4.dropna(axis = 0, how ='any')
-df_4.dropna(axis = 0,inplace = True)
-
-#print(df_4.info())
-#print(df_4.head())
-
-#df_4["required_age"]=df_4["required_age"].astype(int, errors = 'raise')
-
-#print(df_4["required_age"].dtype)
-#print(df_4["required_age"].isna().sum())
-
-#print("df_4.dtypes=",df_4.dtypes)
 
 '''
 df_4["steam_appid"].astype(str).astype(int)
