@@ -7,27 +7,26 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 #import plotly.express as px
-
 # import shap
-#import matplotlib.pyplot as plt
+
 
 @st.cache
-def get_data(filename):
-    taxi_data= pd.read_csv(filename)
-    return taxi_data
+def get_data(sql,cnx):
+    df= df=pd.read_sql(sql, cnx)
+    return df
 
 
 # Création d'une base de données Sqlite3 en mémoire
 # cnx = sqlite3.connect(':memory:')
-# Création d'une base de données Sqlite3 en mémoire
+# Création d'une base de données Sqlite3:
 cnx = sqlite3.connect('steam_games.db')
 curs = cnx.cursor()
-# Interoger la table df avec une requête SQL
+
+# Ask table df a query SQL
 sql = "select * from steam_games"
 curs.execute(sql)
 #print(curs.fetchone())
 df=pd.read_sql(sql, cnx)
-#print(df.head())
 
 header = st.container()
 dataset = st.container()
@@ -54,56 +53,90 @@ with header:
 with dataset:
     st.header('Steam dataset')
     st.text('This is our Database:')
-    st.write(df.head(5))
+    n_row=st.selectbox('Number of rows ?', options=[5, 10, 20, 50], index=0)
+    st.write(df.head(n_row))
 
-    #st.subheader('Pickup pulocation_dist')
-    #pulocation_dist= pd.DataFrame(df['PULocationID'].value_counts()).head(50)
-    #st.bar_chart(pulocation_dist)
+    # Select some rows using st.multiselect.
+    st.write('### Full Dataset', df)
+    selected_indices_1 = st.multiselect('Select rows:', df.index, 1)
+    selected_rows = df.loc[selected_indices_1]
+    st.write('### Rows Selected', selected_rows)
 
 with features:
-    st.header('Steam features')
-    st.text('This is description....')
-    st.markdown('* **first feature:** I create this feature because...')
-    st.markdown('* **second feature:** I create this feature because...')
+    st.header('Games features')
+    #st.text('This is description....')
+    n_age = st.selectbox('Age limit ?', options=[0, 15, 16, 17, 18], index=2)
+    # Ask table df a query SQL
+    if n_age==0:
+        sql = "select * from steam_games where required_age >= 0"
+    elif n_age==15:
+        sql = "select * from steam_games where required_age >= 15"
+    elif n_age==16:
+        sql = "select * from steam_games where required_age >= 16"
+    elif n_age==17:
+        sql = "select * from steam_games where required_age >= 17"
+    elif n_age==18:
+        sql = "select * from steam_games where required_age >= 18"
+
+    df_age = pd.read_sql(sql, cnx)
+    st.write(df_age)
+    # st.markdown('* **first feature:** I create this feature because...')
+
+    # Select columns
+    columns=df.columns.to_list()
+    container = st.container()
+    all = st.checkbox("Select all")
+    #['A', 'B', 'C'], ['A', 'B', 'C']
+
+    if all:
+        selected_options = container.multiselect("Select one or more options:",
+                                                 columns, columns)
+    else:
+        selected_options = container.multiselect("Select one or more options:",
+                                                 columns,default='name')
+
+    string_selected =""
+
+    for i in range(len(selected_options)):
+        if i==0:
+            string_selected=string_selected + selected_options[i]
+        else:
+            string_selected = string_selected + ", " + selected_options[i]
+
+    sql = "SELECT "+ string_selected + " FROM steam_games"
+    st.text(sql)
+    if string_selected != "":
+        df_select = pd.read_sql(sql, cnx)
+        st.write(df_select)
 
 with model_training:
-    st.header('Training model')
-    st.text('This is description....')
+    st.header('Plotting')
+    #st.text('This is description....')
     sel_col, disp_col = st.columns(2)
+
     #first column:
-    max_depth = sel_col.slider('what should be the depth of the model ?',min_value=10,max_value=100,value=20,step=10)
-    n_estimator = sel_col.selectbox('How many trees should there be ?',options=[100,200,300,'no limit'],index=0)
-
-    st.text('Here is the list of feature to select:')
-    #st.write(taxi_data.columns)
-
-    input_feature = sel_col.text_input('Which feature should be use as the input:','PULocationID')
+    sel_col.subheader('Review_score count')
+    rev_score= pd.DataFrame(df['review_score'].value_counts()).head(50)
+    sel_col.bar_chart(rev_score, width=80)
 
     # 2nd column:
-    # Plot Closing Price of Query Symbol
-    def price_plot(df):
-        fig = plt.figure()
-        sns.lmplot(x='total_positive', y='final', data=df)
-        return st.pyplot(fig)
 
-
-    disp_col.subheader('Prepare for plotting..')
+    disp_col.subheader('Price / total_positive:')
+    x_max = disp_col.slider('X scale_max: ', 200, 1500, 1000)
+    y_max = disp_col.slider('Y scale_max: ', 10, 200, 100)
     fig, ax = plt.subplots()
     #sns.lmplot(x='total_positive', y='final', data=df)
-    sns.distplot(df['final'])
+    #sns.distplot(df['final'])
+    #sns.lmplot(x='num_reviews', y='final', data=df,
+    #           fit_reg=False,  # No regression line
+    #           hue='review_score')  # Color by evolution stage
     #plt.bar(df['total_positive'],df['final'])
-    #plt.hist(df['total_positive'], bins=5, rwidth=0.8)
-    plt.xlabel("final")
-    plt.ylabel("Frequency")
-    plt.xlim(0,500)
-    plt.ylim(0,0.01)
-    #sns.lmplot(x='review_score', y='total_positive', data=df)
-    #plt.title("review total vs.positive score")
-    #plt.xlabel("x=review_score")
-    #plt.ylabel("y=total_positive")
-    #plt.xlim(0,100)
-    #plt.ylim(0,0.001)
+    #ax.hist(df['total_positive'], rwidth=0.8)
+    ax.scatter(x=df['total_positive'], y=df['final'], c='blue', alpha=0.3, edgecolors='red')
+    #sns.distplot(df['total_positive'])
+    plt.xlabel("total_positive")
+    plt.ylabel("final (price)")
+    plt.xlim(0,x_max)
+    plt.ylim(0,y_max)
     disp_col.write(fig)
 
-    disp_col.subheader('Output 01..')
-    #disp_col.write( Var_Output_01)
