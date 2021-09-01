@@ -42,7 +42,7 @@ https://steam-streamlit.herokuapp.com/
 # Contributor
 | Name                  | Github                                 |
 |-----------------------|----------------------------------------|
-| Anne Jungers            |       |
+| Anne Jungers            |  https://github.com/annejungers     |
 | Hoang Minh Nguyen           |       |
 | Heba elabrak            |       |
 | Quinten Wildemeersch            |  https://github.com/QuintenMM     |
