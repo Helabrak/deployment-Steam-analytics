@@ -30,13 +30,26 @@ As part of the project, we started with a minimum viable product (MVP). This jus
 ![image](https://user-images.githubusercontent.com/84380899/131641487-1d280a6d-7e3a-4e28-acdc-e31dd9c9dd40.png) ![image](https://user-images.githubusercontent.com/84380899/131641663-85cee3fe-6978-4ce6-855a-a123e6087702.png)
 
 
-For the visualisation of the work we have done, we have chosen to display it on the internet. We have deployed our database on a site we have created with streamlit. We chose streamlit because it is easier to create interactive websites with. This is a big plus for us because we can easily connect our database to streamlit. model how the site is going to look like and give the consumer the opportunity to directly interact with the data as they see fit.
+For the visualisation of the work we have done, we have chosen to display it on the internet. We have deployed our database on a site we have created with streamlit. We chose streamlit because it is easier to create interactive websites with. This is a big plus for us because we can easily connect our database to streamlit.Than we model how the site is going to look like and give the consumer the opportunity to directly interact with the data as they see fit.
 
 
 ## Link to our website  
 https://steam-streamlit.herokuapp.com/
 
 
+
+
+# Contributor
+| Name                  | Github                                 |
+|-----------------------|----------------------------------------|
+| Anne Jungers            |       |
+| Hoang Minh Nguyen           |       |
+| Heba elabrak            |       |
+| Quinten Wildemeersch            |  https://github.com/QuintenMM     |
+
+
+# Timeline
+26/08/2021 - 01/09/2021
 
 
 
