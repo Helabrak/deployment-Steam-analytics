@@ -8,9 +8,9 @@ data link : https://github.com/becodeorg/GNT-Arai-2.31/blob/master/content/addit
 Json files are basicly nested dictionaries. a good way to store data but really difficult to acces. For this reason we have extracted the sub-dictionaries and have flattend them. In the end we took items from the json file which weren't dictionaries and created a pandas datafram. after that we concatenated this pd with the flattend dictionaries. Creating a larg pd with these features:
 
 
-| Name | Steam_appid | Required_age | Is_free | 
-| Short_description |num_reviews |  Review_score |total_positive |
-| Total_negative | Total_revieuws | final_price |
+| Name              | Steam_appid    | Required_age | Is_free         | 
+| Short_description |num_reviews     |   Review_score |total_positive |
+| Total_negative    | Total_revieuws | final_price                    |
 
 Before exporting the datafram to an sql database we first clean it. We found one big thing that we needed to rrslove and that is that there are different currrencies. Converting them into the sam currency gives us the option to plot them later and use this data correctley.
 
