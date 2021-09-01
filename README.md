@@ -18,3 +18,4 @@ data link : https://github.com/becodeorg/GNT-Arai-2.31/blob/master/content/addit
     Flattening
     Creation of a SQL database
     
+![image](https://user-images.githubusercontent.com/84380899/131637182-998fc555-97a4-448b-9991-24dbd921fb27.png)
