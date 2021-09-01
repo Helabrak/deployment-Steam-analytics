@@ -16,7 +16,7 @@ Before exporting the datafram to an sql database we first clean it. We found one
 
 ## Save json data into an SQL database
 we  haven't flattend al the items from the json file. we also exported specific dictionaries directley to sql, these where in different tables, an example of this is genres.
-![image] (https://github.com/Helabrak/deployment-Steam-analytics/blob/166658ebf86a9671ffa070b411ac3388505dfc79/2tables.png)
+![image] (2tables.png)
 
 Exporting the pandas datafram to sql wasn't that hard, just three lines. The problem arrises when the features aren't formatted correctley and gives error's. we formatted each column in it's respective datatype, str, float, int.
 
