@@ -17,7 +17,7 @@ Json files are basicaly nested dictionaries. A good way to store data but really
 Before exporting the dataframe to a SQL database, we first cleaned it. We found one big thing that we needed to solve and that is that there are different currrencies. Converting them into the same currency gives us the option to plot them later and use this data correctly.
 
 ## Save json data into an SQL database
-we  haven't flattened all the items from the json file. we also exported specific dictionaries directly to SQL, these where in different tables, an example of this is "genres".
+we  haven't flattened all the items from the json file. We also exported specific dictionaries directly to SQL, these where in different tables, an example of this is "genres".
 
 ![image](https://github.com/Helabrak/deployment-Steam-analytics/blob/f5abe9f1964da7b50dd90c928b25037b02fa015b/2tables.png)
 
