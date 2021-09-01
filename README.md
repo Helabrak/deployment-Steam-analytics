@@ -22,9 +22,9 @@ Exporting the pandas datafram to sql wasn't that hard, just three lines. The pro
 ## Visualize data from a SQL database
 As part of the project we started with a minimum viable product. This just means we went through the whole process of parsing the data and constructing a database. We also created som visuals which show the relation between certain datapoints. The MVP was created to have something to show for each step of the way. We knew the interactive site would take a lot of work and in case it wasn't complete in time we still have this to show for our work.
 
-![image](https://user-images.githubusercontent.com/84380899/131641487-1d280a6d-7e3a-4e28-acdc-e31dd9c9dd40.png)
+![image](https://user-images.githubusercontent.com/84380899/131641487-1d280a6d-7e3a-4e28-acdc-e31dd9c9dd40.png) ![image](https://user-images.githubusercontent.com/84380899/131641663-85cee3fe-6978-4ce6-855a-a123e6087702.png)
 
-![image](https://user-images.githubusercontent.com/84380899/131641663-85cee3fe-6978-4ce6-855a-a123e6087702.png)
+
 
 
 Fo the visulisation of the work we have done we have chosen to display it on the interent. We deploy our database on a site we have created with streamlit. We chose streamlit because it is easier to create interactive websites with. This is a big plus for us because we can easily connect our database to streamlit. model how the site is going to look like and give the conusmer the opportunity to directley interect with the data as they see fit.
