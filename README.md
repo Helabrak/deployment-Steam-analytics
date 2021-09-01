@@ -11,7 +11,7 @@ Json files are basicaly nested dictionaries. A good way to store data but really
 | Name       | Steam_appid |  Required_age |  Is_free                                                                    |
 |----------------|----------------|--------------|---------------------------------------------------------|
 | Short_description | Num_reviews |  Review_score | Total_positive                                     |
-| Total_negative | Total_reviews | Final_price | Null                                   |
+| Total_negative | Total_reviews | Final_price |                                    |
 
 
 Before exporting the dataframe to a sql database, we first cleaned it. We found one big thing that we needed to resolve and that is that there are different currrencies. Converting them into the same currency gives us the option to plot them later and use this data correctly.
